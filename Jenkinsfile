@@ -51,8 +51,9 @@ spec:
       }
       steps {
         container('tools') {
-          sh "git clone https://$GIT_CREDS_USR:$GIT_CREDS_PSW@github.com/prachimittal2016/argocd-demo-deploy.git"
-          //sh "git config --global user.email 'pracmittal@gmail.com'"
+          sh "git clone https://$GIT_CREDS_USR:$GIT_CREDS_PSW@github.com/PrachiMittal2016/argocd-demo-deploy.git"
+          sh "git config --global user.email 'pracmittal@gmail.com'"
+          sh "git config --global user.name 'PrachiMittal2016'"
 
           dir("argocd-demo-deploy") {
             //sh "git remote rm origin"
