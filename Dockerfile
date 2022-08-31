@@ -1,5 +1,6 @@
-FROM node:10.15.3-stretch
+FROM nginx
 
-ADD main.js /app/main.js
+WORKDIR /usr/share/nginx/html
+COPY index.html /usr/share/nginx/html
 
-ENTRYPOINT [ "node", "/app/main.js" ]
+CMD ["nginx", "-g", "daemon off;"]
