@@ -56,7 +56,7 @@ spec:
           sh "git config --global user.name 'PrachiMittal2016'"
 
           dir("argocd-demo-deploy") {
-            sh "cd ./apps/demo-app/overlays/staging1/ && kustomize edit set image prachimittal2016/argocd-demo:${env.GIT_COMMIT}"
+            sh "cd ./apps/demo-app/overlays/qa/ && kustomize edit set image prachimittal2016/argocd-demo:${env.GIT_COMMIT}"
             sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
           }
         }
