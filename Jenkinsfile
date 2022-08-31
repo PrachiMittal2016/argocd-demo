@@ -58,7 +58,8 @@ spec:
           dir("argocd-demo-deploy") {
             //sh "git remote rm origin"
             //sh "git remote add origin git@github.com:PrachiMittal2016/argocd-demo-deploy.git"
-            sh "cd ./apps/demo-app/overlays/staging/ && kustomize edit set image prachimittal2016/argocd-demo:${env.GIT_COMMIT}"
+            //sh "cd ./apps/demo-app/overlays/staging/ && kustomize edit set image prachimittal2016/argocd-demo:${env.GIT_COMMIT}"
+            sh "cd ./apps/demo-app/overlays/staging/ && deployment edit set image prachimittal2016/argocd-demo:${env.GIT_COMMIT}"
             sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
           }
         }
