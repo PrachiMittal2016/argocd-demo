@@ -70,7 +70,7 @@ spec:
         input message:'Approve deployment?'
         container('tools') {
           dir("argocd-demo-deploy") {
-            sh "cd ./prod && kustomize edit set image prachimittal2016/argocd-demo:${env.GIT_COMMIT}"
+            sh "cd ./apps/demo-app/overlays/prod/ && kustomize edit set image prachimittal2016/argocd-demo:${env.GIT_COMMIT}"
             sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
           }
         }
