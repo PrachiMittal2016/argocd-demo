@@ -45,40 +45,18 @@ spec:
       }
     }
 
-    stage('Deploy to staging') {
+    stage('Deploy to test') {
       environment {
         GIT_CREDS = credentials('github')
       }
       steps {
         container('tools') {
-          sh "git clone https://$GIT_CREDS_USR:$GIT_CREDS_PSW@github.com/PrachiMittal2016/argocd-demo-deploy.git"
+          sh "git clone -b rollout https://$GIT_CREDS_USR:$GIT_CREDS_PSW@github.com/PrachiMittal2016/argocd-demo-deploy.git"
           sh "git config --global user.email 'pracmittal@gmail.com'"
           sh "git config --global user.name 'PrachiMittal2016'"
 
           dir("argocd-demo-deploy") {
-            sh "cd ./apps/demo-app/overlays/staging1/ && kustomize edit set image prachimittal2016/argocd-demo:${env.GIT_COMMIT}"
-            sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
-          }
-        }
-      }
-    }
-
-    stage('Deploy to QA') {
-      steps {
-        container('tools') {
-          dir("argocd-demo-deploy") {
-            sh "cd ./apps/demo-app/overlays/qa/ && kustomize edit set image prachimittal2016/argocd-demo:${env.GIT_COMMIT}"
-            sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
-          }
-        }
-      }
-    }
-    stage('Deploy to Prod') {
-      steps {
-        input message:'Approve deployment?'
-        container('tools') {
-          dir("argocd-demo-deploy") {
-            sh "cd ./apps/demo-app/overlays/prod/ && kustomize edit set image prachimittal2016/argocd-demo:${env.GIT_COMMIT}"
+            sh "cd ./apps/demo-app/overlays/test/ && kustomize edit set image prachimittal2016/argocd-demo:${env.GIT_COMMIT}"
             sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
           }
         }
