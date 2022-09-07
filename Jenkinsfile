@@ -38,9 +38,9 @@ spec:
       steps {
         container('docker') {
           // Build new image
-          sh "until docker ps; do sleep 3; done && docker build -t prachimittal2016/argocd-demo:${env.GIT_COMMIT} ."
+          sh "until docker ps; do sleep 3; done && docker build -t prachimittal2016/argocd-demo:${env.BUILD_NUMBER} ."
           // Publish new image
-          sh "docker login --username $DOCKERHUB_CREDS_USR --password $DOCKERHUB_CREDS_PSW && docker push prachimittal2016/argocd-demo:${env.GIT_COMMIT}"
+          sh "docker login --username $DOCKERHUB_CREDS_USR --password $DOCKERHUB_CREDS_PSW && docker push prachimittal2016/argocd-demo:${env.BUILD_NUMBER}"
         }
       }
     }
@@ -56,7 +56,7 @@ spec:
           sh "git config --global user.name 'PrachiMittal2016'"
 
           dir("argocd-demo-deploy") {
-            sh "cd ./apps/demo-app/overlays/staging1/ && kustomize edit set image prachimittal2016/argocd-demo:${env.GIT_COMMIT}"
+            sh "cd ./apps/demo-app/overlays/staging1/ && kustomize edit set image prachimittal2016/argocd-demo:${env.BUILD_NUMBER}"
             sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
           }
         }
@@ -67,7 +67,7 @@ spec:
       steps {
         container('tools') {
           dir("argocd-demo-deploy") {
-            sh "cd ./apps/demo-app/overlays/qa/ && kustomize edit set image prachimittal2016/argocd-demo:${env.GIT_COMMIT}"
+            sh "cd ./apps/demo-app/overlays/qa/ && kustomize edit set image prachimittal2016/argocd-demo:${env.BUILD_NUMBER}"
             sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
           }
         }
@@ -78,7 +78,7 @@ spec:
         input message:'Approve deployment?'
         container('tools') {
           dir("argocd-demo-deploy") {
-            sh "cd ./apps/demo-app/overlays/prod/ && kustomize edit set image prachimittal2016/argocd-demo:${env.GIT_COMMIT}"
+            sh "cd ./apps/demo-app/overlays/prod/ && kustomize edit set image prachimittal2016/argocd-demo:${env.BUILD_NUMBER}"
             sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
           }
         }
