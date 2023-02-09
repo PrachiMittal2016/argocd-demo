@@ -7,4 +7,6 @@ application has `staging`, `qa` and `prod` environment. The deployment process i
 
 ![pipeline](./pipeline.png)
 
+(./pipeline.png)
+
 The pipeline is responsible for building the Docker image and updating deployment repository. The deployment changes are pushed to the Kubernetes cluster by [Argo CD](https://cd.apps.argoproj.io)
